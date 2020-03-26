@@ -7,9 +7,9 @@ const authRoutes = require("./routes/auth.routes");
 //
 const session = require("express-session");
 const flash = require("connect-flash"); // displays 1 time messages
-let passport = require("./helper/ppConfig");
+let passport = require("./config/passportConfig");
 //
-const app = express();
+const server = express();
 
 
 mongoose.connect(
@@ -55,9 +55,9 @@ server.use(function(request, response, next) {
   next();
 });
 
-app.use(authRoutes);
+server.use(authRoutes);
 
-app.get("*", (request, response) => {
+server.get("*", (request, response) => {
   response.send("doesnt exist yet!");
 });
 

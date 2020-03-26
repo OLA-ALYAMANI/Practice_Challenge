@@ -11,13 +11,15 @@ router.get("/auth/signup", (request, response) => {
 
 //error decleration
 router.post("/auth/signup", [
-  check('firstName').isLength({ min: 2 }),
-  check('lastName').isLength({ min: 2 }),
+  check('firstName').isLength({ min: 3 }),
+  check('lastName').isLength({ min: 3 }),
   check('phoneNumber').isLength({ min: 9 }),
   check('password').isLength({ min: 5 }),
   check('city').isLength({ min: 3 }),
-  check('street').isLength({ min: 5 }),
+  check('street').isLength({ min: 3 }),
   check('age').isLength({ min: 2 }),
+  check('homeNumber').isLength({ min: 2 }),
+
 ], 
 //first case: signing up with errors
 (request, response) => {
