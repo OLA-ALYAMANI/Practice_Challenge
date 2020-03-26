@@ -1,15 +1,15 @@
-const express = require("express");
-const server = express();
-const session = require("express-session");
 require("dotenv").config();
+const express = require("express");
 const PORT = process.env.PORT;
 const mongoose = require("mongoose");
 const expressLayouts = require("express-ejs-layouts");
 const authRoutes = require("./routes/auth.routes");
 //
+const session = require("express-session");
 const flash = require("connect-flash"); // displays 1 time messages
 let passport = require("./helper/ppConfig");
 //
+const app = express();
 
 
 mongoose.connect(
@@ -53,6 +53,12 @@ server.use(function(request, response, next) {
   response.locals.alerts = request.flash();
   response.locals.currentUser = request.user;
   next();
+});
+
+app.use(authRoutes);
+
+app.get("*", (request, response) => {
+  response.send("doesnt exist yet!");
 });
 
 server.listen(process.env.PORT, () =>

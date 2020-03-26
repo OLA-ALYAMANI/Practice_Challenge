@@ -1,0 +1,7 @@
+<h3>You are logged in <%= currentUser.firstname %>!</h3>
+<div>
+  <% if(currentUser.isFree){ %>
+  <% users.forEach(function(user){%>
+  <div><%= user.firstname %></div>
+  <% }) %> <% } %>
+</div>

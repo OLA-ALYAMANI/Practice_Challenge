@@ -19,6 +19,48 @@ router.post("/auth/signup", [
   check('street').isLength({ min: 5 }),
   check('age').isLength({ min: 2 }),
 ], 
+//first case: signing up with errors
+(request, response) => {
+  const errors = validationResult(request);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    request.flash("autherror", errors.errors);
+    return response.redirect("/auth/signup");
+    }
+
+  //second case: signing up with no errors
+  let user = new User(request.body);
+  user
+    .save()
+    .then(() => {
+      //user login after registration
+      //or response.redirect("/auth/signin")
+      passport.authenticate("local", {
+        successRedirect: "/home",
+        successFlash: "Account created and You have logged In!"
+      })(request, response);
+    })
+    .catch(err => {
+      // console.log(err);
+      if (err.code == 11000) {
+        console.log("Email Exists");
+        request.flash("error", "Email Exists");
+        return response.redirect("/auth/signup");
+      }
+      response.send("error!!!");
+    });
+});
+
+router.get("/auth/signin", (request, response) => {
+  response.render("auth/signin");
+});
+
+router.get("/home", isLoggedIn, (request, response) => {
+  // request.user
+  User.find().then(users => {
+    response.render("home", { users });
+  });
+});
 
 
 //--- Login Route 
