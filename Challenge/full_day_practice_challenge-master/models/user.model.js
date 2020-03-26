@@ -42,9 +42,14 @@ var userSchema = new mongoose.Schema({
     type: String,
     enum: ["free", "inProgress", "fulfilled"], //only listed can be values
     default: "free"
+  },
+  role: {
+    type: String,
+    enum: ["admin", "senior", "helper"], //only listed can be values
+    default: "helper"
   }
 },
-{ timestamps: true }
+{ timestamps: true}
 );
 
 userSchema.pre("save", function(next) {
